@@ -30,7 +30,7 @@ npx supabase db query --linked "select ..."    # run SQL against the cloud DB fr
 
 - [x] **Phase 0: Setup.** Supabase project, CLI linked, first migration pushed
 - [x] **Phase 1: Data model.** Tables, data types, constraints, foreign keys, enums (the menu, so far; orders come later)
-- [ ] **Phase 2: Querying.** Seed data, joins, aggregates, views, CTEs, window functions
+- [x] **Phase 2: Querying.** Seed data, joins, aggregates, views, CTEs, window functions (study notes in `queries/`)
 - [ ] **Phase 3: Supabase layer.** Auth, Row Level Security, auto-generated API, Storage
 - [ ] **Phase 4: Frontend.** Comic Sans menu, cart, checkout through a transactional RPC
 - [ ] **Phase 5: Advanced.** Triggers, Realtime order tracking, indexes and `EXPLAIN ANALYZE`, Edge Functions
