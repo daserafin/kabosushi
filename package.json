@@ -1,0 +1,23 @@
+{
+  "name": "kabosushi",
+  "version": "1.0.0",
+  "description": "Such sushi. Very delivery. Wow.",
+  "scripts": {
+    "db:new": "supabase migration new",
+    "db:push": "supabase db push",
+    "db:list": "supabase migration list"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daserafin/kabosushi.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/daserafin/kabosushi/issues"
+  },
+  "homepage": "https://github.com/daserafin/kabosushi#readme",
+  "private": true,
+  "devDependencies": {
+    "supabase": "^2.122.0"
+  }
+}
