@@ -4,8 +4,8 @@
   "description": "Such sushi. Very delivery. Wow.",
   "scripts": {
     "db:new": "supabase migration new",
-    "db:push": "supabase db push",
-    "db:list": "supabase migration list"
+    "db:push": "supabase db push --linked",
+    "db:list": "supabase migration list --linked"
   },
   "repository": {
     "type": "git",
