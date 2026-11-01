@@ -332,6 +332,86 @@ body {
   display: none !important;
 }
 
+/* --- cart ---------------------------------------------------------------- */
+
+.cart-lines {
+  max-width: 640px;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  background: var(--card);
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.cart-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px dashed var(--ink);
+}
+
+.cart-line:last-child {
+  border-bottom: none;
+}
+
+.cart-line.unavailable {
+  background: #ffe0ef;
+}
+
+.line-name {
+  flex: 1 1 12rem;
+  font-weight: 700;
+}
+
+.qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.qty button,
+.cart-line .remove {
+  width: 2rem;
+  height: 2rem;
+  font: inherit;
+  font-weight: 700;
+  background: #ffe600;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.cart-line .remove {
+  background: #fff;
+}
+
+.line-total {
+  min-width: 5rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.cart-total {
+  font-size: 1.3rem;
+}
+
+.cart-total .hint {
+  font-size: 0.9rem;
+  color: #6b5e3c;
+}
+
+.checkout-note {
+  font-size: 1.1rem;
+}
+
+.order-done h2 {
+  margin: 0;
+}
+
 /* --- hero ---------------------------------------------------------------- */
 
 .hero {

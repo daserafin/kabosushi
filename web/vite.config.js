@@ -16,6 +16,7 @@ export default defineConfig({
         info: page('info/index.html'),
         feedback: page('feedback/index.html'),
         login: page('login/index.html'),
+        cart: page('cart/index.html'),
       },
     },
   },
