@@ -1,0 +1,92 @@
+# Keycloak for kabosushi's Phase 5 auth experiments: one identity provider that speaks
+# both OIDC and SAML. Runs on the homelab behind nginx-proxy-manager (NPM), which
+# terminates TLS and forwards plain HTTP to Keycloak on port 8080.
+#
+#   cp .env.example .env   # then fill it in
+#   docker compose up -d
+#   docker compose logs -f keycloak
+#
+# Settings marked ★ are the ones you're most likely to change.
+
+services:
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    # Not published by default: only Keycloak needs it. Uncomment to poke at Keycloak's
+    # own tables with psql from the homelab host (user/db: keycloak).
+    # ports:
+    #   - "127.0.0.1:5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  keycloak:
+    # ★ Pinned so an image pull never surprises you with an upgrade.
+    image: quay.io/keycloak/keycloak:26.8.1
+    # "start" is production mode: HTTPS-aware, strict hostname, no dev shortcuts.
+    # (start-dev would use an in-memory-ish H2 database and relax the hostname rules.)
+    command: start
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # --- Database -----------------------------------------------------------
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+
+      # --- Hostname (★ the setting that matters most) --------------------------
+      # The public URL, exactly as browsers and Supabase will reach it. Keycloak writes
+      # it into every token and SAML assertion as the issuer; if it doesn't match the
+      # URL Supabase was configured with, verification fails.
+      KC_HOSTNAME: ${KC_HOSTNAME:?set KC_HOSTNAME in .env, e.g. https://auth.example.com}
+      # ★ Optional: serve the admin console on a separate, LAN-only URL, so the public
+      # hostname can block /admin/ entirely (see the NPM notes in .env.example).
+      KC_HOSTNAME_ADMIN: ${KC_HOSTNAME_ADMIN:-}
+
+      # --- Behind nginx-proxy-manager --------------------------------------------
+      # NPM terminates TLS and talks plain HTTP to Keycloak...
+      KC_HTTP_ENABLED: "true"
+      # ...and tells it the original scheme and client IP via X-Forwarded-* headers.
+      # Only safe because Keycloak isn't reachable except through NPM.
+      KC_PROXY_HEADERS: xforwarded
+
+      # --- First admin --------------------------------------------------------------
+      # ★ A temporary admin in the "master" realm, created on first start only.
+      # Log in, create your own admin user, then delete or disable this one.
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME:-temp-admin}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD:?set KC_BOOTSTRAP_ADMIN_PASSWORD in .env}
+
+      # --- Ops ----------------------------------------------------------------------
+      # /health/ready etc. on the management port 9000 (not 8080, never exposed).
+      KC_HEALTH_ENABLED: "true"
+      # ★ debug when something in a login flow fails silently.
+      KC_LOG_LEVEL: ${KC_LOG_LEVEL:-info}
+    ports:
+      # ★ If NPM runs on another machine, it forwards to <this host>:8080.
+      # If NPM runs in Docker on this same host, prefer the shared network below and
+      # delete this port mapping, so Keycloak is only reachable through NPM.
+      - "8080:8080"
+    # networks:
+    #   - default
+    #   - npm
+
+volumes:
+  postgres-data:
+
+# ★ Same-host NPM: join its network so NPM can forward to http://keycloak:8080.
+# Find its name with `docker network ls` (often nginx-proxy-manager_default).
+# networks:
+#   npm:
+#     name: nginx-proxy-manager_default
+#     external: true
