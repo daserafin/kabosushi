@@ -49,7 +49,7 @@ npm run web                      # dev server at http://localhost:5173
   - [x] Comic Sans menu, read from `menu_view` through the auto-generated API
   - [x] Opening hours and location (Sakura, Chiba): time zones, the `store_status()` RPC
   - [x] Feedback form: anyone can send, nobody can read back (insert-only RLS). Read it in the dashboard's Table Editor
-  - [ ] Login for the test accounts, no sign-up yet, with a "good doggos only" banner
+  - [x] Login for the test accounts, with a "good doggos only" banner. Public sign-up is switched off in the dashboard (Authentication → Sign In / Providers); add users with "Add user"
   - [ ] Cart (in the browser) and checkout through a transactional `place_order()` RPC
   - [ ] `/author`: a hidden easter-egg page (spinning 3D bun doge, synced to a song). Details to come
 - [ ] **Phase 5: Advanced.** Triggers, Realtime order tracking, indexes and `EXPLAIN ANALYZE`, Edge Functions
