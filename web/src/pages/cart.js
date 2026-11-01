@@ -87,7 +87,7 @@ async function render() {
         <p>Order <strong>#${placedOrder.id}</strong> is <strong>${placedOrder.status}</strong>.
            Total charged by doge: <strong>${money(placedOrder.total_cents)}</strong>.</p>
         <p>Delivering to: ${escapeHtml(placedOrder.delivery_address)}</p>
-        <a href="/">back to menu</a>
+        <p><a href="/orders/#order-${placedOrder.id}">track it live 🛵</a> · <a href="/">back to menu</a></p>
       </section>`
     return
   }

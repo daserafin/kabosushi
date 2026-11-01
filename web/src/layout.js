@@ -47,6 +47,7 @@ export function renderNav() {
     const kitchenLink = isStaff ? `<a href="/kitchen/" ${isCurrent('/kitchen/')}>👨‍🍳 kitchen</a>` : ''
     authArea.innerHTML = `
       ${kitchenLink}
+      <a href="/orders/" ${isCurrent('/orders/')}>📦 my orders</a>
       <a href="/login/" ${isCurrent('/login/')}>🐕 ${escapeHtml(name)}</a>
       <button type="button" class="logout">log out</button>`
     authArea.querySelector('.logout').addEventListener('click', () => supabase.auth.signOut())
