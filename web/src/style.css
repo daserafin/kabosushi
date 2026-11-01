@@ -412,6 +412,250 @@ body {
   margin: 0;
 }
 
+/* --- kitchen ------------------------------------------------------------- */
+
+.kitchen-page {
+  max-width: 1200px;
+}
+
+.live-bar {
+  margin: 0 0 1rem;
+  font-weight: 700;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.column {
+  padding: 0.75rem;
+  background: #fff3a0;
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.column-cooking { background: #ffd9b3; }
+.column-delivering { background: #c9f0ff; }
+
+.column h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.3rem;
+}
+
+.column .count {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 0.4em;
+  font-size: 1rem;
+  text-align: center;
+  color: #fff;
+  background: var(--ink);
+  border-radius: 999px;
+}
+
+.column .empty {
+  margin: 0;
+  color: #6b5e3c;
+}
+
+.ticket {
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+}
+
+.ticket:last-child {
+  margin-bottom: 0;
+}
+
+.ticket.fresh {
+  animation: wobble 0.5s ease-in-out 3;
+}
+
+.ticket header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+}
+
+.ticket time {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #6b5e3c;
+}
+
+.ticket ul {
+  margin: 0.5rem 0;
+  padding-left: 1.2rem;
+}
+
+.ticket-address {
+  margin: 0 0 0.25rem;
+  font-size: 0.9rem;
+}
+
+.ticket-total {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+}
+
+.ticket-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ticket-actions button {
+  padding: 0.35rem 0.9rem;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--pink);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.ticket-actions .cancel {
+  color: var(--ink);
+  background: #fff;
+}
+
+.ticket-actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* --- order tracker ------------------------------------------------------- */
+
+.order-card {
+  max-width: 640px;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: var(--card);
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.order-card.highlight {
+  outline: 4px dashed var(--pink);
+  outline-offset: 4px;
+}
+
+.order-card.delivered,
+.order-card.cancelled {
+  opacity: 0.75;
+}
+
+.order-card header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.order-card h2 {
+  margin: 0;
+}
+
+.order-meta {
+  font-weight: 700;
+}
+
+.progress {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.progress li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+  color: #9a8f74;
+}
+
+.progress .step-icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.4rem;
+  background: #eee;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  filter: grayscale(1);
+}
+
+.progress li.done,
+.progress li.current {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.progress li.done .step-icon {
+  background: var(--green);
+  border-color: var(--ink);
+  filter: none;
+}
+
+.progress li.current .step-icon {
+  background: #ffe600;
+  border: var(--border);
+  filter: none;
+  animation: wobble 1.5s ease-in-out infinite;
+}
+
+.progress time {
+  min-height: 1.2em;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.cancelled-note {
+  margin: 1rem 0;
+  font-weight: 700;
+  color: var(--pink);
+}
+
+.order-card summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  background: #ffe600;
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.toast.error {
+  color: #fff;
+  background: var(--pink);
+}
+
 /* --- hero ---------------------------------------------------------------- */
 
 .hero {

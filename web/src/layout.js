@@ -42,8 +42,13 @@ export function renderNav() {
       authArea.innerHTML = `<a href="/login/" ${isCurrent('/login/')}>🔑 login</a>`
       return
     }
+    const [name, { data: isStaff }] = await Promise.all([displayName(session.user), supabase.rpc('is_staff')])
+    // Staff get a kitchen link. Customers could still type /kitchen/, but RLS shows them nothing.
+    const kitchenLink = isStaff ? `<a href="/kitchen/" ${isCurrent('/kitchen/')}>👨‍🍳 kitchen</a>` : ''
     authArea.innerHTML = `
-      <a href="/login/" ${isCurrent('/login/')}>🐕 ${escapeHtml(await displayName(session.user))}</a>
+      ${kitchenLink}
+      <a href="/orders/" ${isCurrent('/orders/')}>📦 my orders</a>
+      <a href="/login/" ${isCurrent('/login/')}>🐕 ${escapeHtml(name)}</a>
       <button type="button" class="logout">log out</button>`
     authArea.querySelector('.logout').addEventListener('click', () => supabase.auth.signOut())
   })

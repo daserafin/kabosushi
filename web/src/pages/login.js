@@ -14,16 +14,20 @@ async function logIn(email, password) {
   if (error) throw error
 }
 
-async function countMyOrders() {
-  // No filter by user: RLS on orders only ever shows the caller's own rows.
+async function countMyOrders(userId) {
+  // Filter by user explicitly: for customers RLS alone would do, but staff policies let
+  // staff read every order, and "my orders" should still mean mine.
   // { count: 'exact', head: true } asks for just the number (a HEAD request), not the rows.
-  const { count, error } = await supabase.from('orders').select('*', { count: 'exact', head: true })
+  const { count, error } = await supabase
+    .from('orders')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', userId)
   if (error) throw error
   return count
 }
 
 async function showWelcome(session) {
-  const [name, orders] = await Promise.all([displayName(session.user), countMyOrders()])
+  const [name, orders] = await Promise.all([displayName(session.user), countMyOrders(session.user.id)])
   welcome.querySelector('.welcome-title').textContent = `wow. welcome back, ${name}! 🐕`
   welcome.querySelector('.welcome-orders').textContent =
     orders === 1 ? 'You have 1 order. Such loyal.' : `You have ${orders} orders. Such loyal.`
