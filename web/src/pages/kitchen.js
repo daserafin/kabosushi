@@ -54,7 +54,10 @@ async function setStatus(orderId, status) {
 
 // --- rendering --------------------------------------------------------------
 
-const minutesAgo = (iso) => Math.max(0, Math.round((Date.now() - new Date(iso)) / 60000))
+function timeAgo(iso) {
+  const minutes = Math.max(0, Math.round((Date.now() - new Date(iso)) / 60000))
+  return minutes < 60 ? `${minutes} min ago` : `${Math.floor(minutes / 60)} h ago, very hungry`
+}
 
 function ticket(order, column) {
   const lines = order.order_items
@@ -66,7 +69,7 @@ function ticket(order, column) {
     <article class="ticket ${freshIds.has(order.id) ? 'fresh' : ''}" data-id="${order.id}">
       <header>
         <strong>#${order.id}</strong> ${escapeHtml(customer)}
-        <time datetime="${order.created_at}">${minutesAgo(order.created_at)} min ago</time>
+        <time datetime="${order.created_at}">${timeAgo(order.created_at)}</time>
       </header>
       <ul>${lines}</ul>
       <p class="ticket-address">📍 ${escapeHtml(order.delivery_address)}</p>
