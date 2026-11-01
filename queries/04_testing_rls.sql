@@ -39,3 +39,33 @@ update public.profiles set id = gen_random_uuid();
 -- 4. As a logged-out visitor: anon has no grant on profiles at all.
 set role anon;
 select * from public.profiles;                        -- permission denied
+
+
+-- 5. Orders. As postgres, create a test order: a data-modifying CTE inserts the order,
+--    and the same statement inserts its lines using the new order's id.
+--    (A preview of Phase 4's place_order(), which will do this with server-side checks.)
+with picks (name, qty) as (values ('Much Wow Roll', 2), ('Yuzu Doge-ade', 1)),
+priced as (
+  select m.id, p.qty, m.price_cents from picks p join public.menu_items m on m.name = p.name
+),
+new_order as (
+  insert into public.orders (user_id, delivery_address, total_cents)
+  select (select id from auth.users order by created_at limit 1),   -- doge
+         '1 Shiba Street, Sakura City', sum(qty * price_cents)
+  from priced
+  returning id
+)
+insert into public.order_items (order_id, menu_item_id, quantity, unit_price_cents)
+select o.id, p.id, p.qty, p.price_cents from new_order o cross join priced p
+returning *;
+
+
+-- 6. As cheems, try to read doge's order lines, then try to place a free order.
+--    The read returns 0 (order_items' policy checks the parent order's owner);
+--    the insert fails with "permission denied" (no INSERT grant on orders at all).
+select set_config('request.jwt.claims',
+  json_build_object('sub', id, 'role', 'authenticated')::text, false)
+from auth.users order by created_at offset 1 limit 1; -- cheems
+set role authenticated;
+select count(*) from public.order_items where order_id = 1;
+insert into public.orders (user_id, delivery_address, total_cents) values (auth.uid(), 'Bonk Town', 0);
