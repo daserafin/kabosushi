@@ -1,6 +1,7 @@
 import '../style.css'
 import { renderNav } from '../layout.js'
 import { supabase } from '../supabase.js'
+import { escapeHtml } from '../html.js'
 
 const menuEl = document.querySelector('#menu')
 
@@ -42,12 +43,6 @@ function photoUrl(path) {
 }
 
 // --- rendering --------------------------------------------------------------
-
-// Menu text comes from the database. Escape it before putting it into HTML, so a stray
-// "<" in a description can never turn into markup or a script.
-function escapeHtml(text) {
-  return String(text ?? '').replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`)
-}
 
 function itemCard(item) {
   const classes = ['card', item.is_available ? '' : 'sold-out'].join(' ')
