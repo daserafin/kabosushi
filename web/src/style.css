@@ -412,6 +412,145 @@ body {
   margin: 0;
 }
 
+/* --- kitchen ------------------------------------------------------------- */
+
+.kitchen-page {
+  max-width: 1200px;
+}
+
+.kitchen-bar {
+  margin: 0 0 1rem;
+  font-weight: 700;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.column {
+  padding: 0.75rem;
+  background: #fff3a0;
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.column-cooking { background: #ffd9b3; }
+.column-delivering { background: #c9f0ff; }
+
+.column h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.3rem;
+}
+
+.column .count {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 0.4em;
+  font-size: 1rem;
+  text-align: center;
+  color: #fff;
+  background: var(--ink);
+  border-radius: 999px;
+}
+
+.column .empty {
+  margin: 0;
+  color: #6b5e3c;
+}
+
+.ticket {
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+}
+
+.ticket:last-child {
+  margin-bottom: 0;
+}
+
+.ticket.fresh {
+  animation: wobble 0.5s ease-in-out 3;
+}
+
+.ticket header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+}
+
+.ticket time {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #6b5e3c;
+}
+
+.ticket ul {
+  margin: 0.5rem 0;
+  padding-left: 1.2rem;
+}
+
+.ticket-address {
+  margin: 0 0 0.25rem;
+  font-size: 0.9rem;
+}
+
+.ticket-total {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+}
+
+.ticket-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ticket-actions button {
+  padding: 0.35rem 0.9rem;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--pink);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.ticket-actions .cancel {
+  color: var(--ink);
+  background: #fff;
+}
+
+.ticket-actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  background: #ffe600;
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.toast.error {
+  color: #fff;
+  background: var(--pink);
+}
+
 /* --- hero ---------------------------------------------------------------- */
 
 .hero {

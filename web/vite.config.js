@@ -17,6 +17,7 @@ export default defineConfig({
         feedback: page('feedback/index.html'),
         login: page('login/index.html'),
         cart: page('cart/index.html'),
+        kitchen: page('kitchen/index.html'),
       },
     },
   },
