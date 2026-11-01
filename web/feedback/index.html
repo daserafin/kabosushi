@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tell kabosushi what you think, or ask for new foodo." />
+    <title>feedback · kabosushi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="site-nav"></nav>
+
+    <main class="page">
+      <h1>much feedback</h1>
+      <p>Such opinion? Very hungry for something not on the menu? Tell the doges.</p>
+
+      <form id="feedback-form" class="doge-form" novalidate>
+        <fieldset class="kind">
+          <legend>what is this?</legend>
+          <label><input type="radio" name="kind" value="feedback" checked /> feedback 💬</label>
+          <label><input type="radio" name="kind" value="food request" /> new foodo request 🍱</label>
+        </fieldset>
+
+        <label for="name">your name <span class="hint">(optional, max 60)</span></label>
+        <input id="name" name="name" maxlength="60" placeholder="Anonymous Shibe" autocomplete="nickname" />
+
+        <label for="message">message <span class="hint">(3–1000 characters)</span></label>
+        <textarea id="message" name="message" rows="6" minlength="3" maxlength="1000" required
+          placeholder="wow. such roll. please add ramen."></textarea>
+        <p class="counter" aria-live="polite"><span id="count">0</span>/1000</p>
+
+        <button type="submit">send to doge 🐕</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </main>
+
+    <script type="module" src="/src/pages/feedback.js"></script>
+  </body>
+</html>

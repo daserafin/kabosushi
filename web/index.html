@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Such sushi. Very delivery. Wow." />
+    <title>kabosushi · such sushi, very delivery</title>
+    <!-- Comic Neue: a Comic Sans lookalike for phones, which don't ship Comic Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="site-nav"></nav>
+
+    <header class="hero">
+      <img class="hero-bun" src="/doge-bun.png" alt="Kabosu the doge as a loaf of bread" />
+      <h1>kabosushi</h1>
+      <p class="tagline">such sushi. very delivery. wow.</p>
+      <div class="doge-words" aria-hidden="true"></div>
+    </header>
+
+    <main id="menu" aria-live="polite">
+      <p class="status">loading menu… such wait</p>
+    </main>
+
+    <script type="module" src="/src/pages/menu.js"></script>
+  </body>
+</html>
