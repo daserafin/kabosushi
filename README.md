@@ -34,3 +34,4 @@ npx supabase db query --linked "select ..."    # run SQL against the cloud DB fr
 - [ ] **Phase 3: Supabase layer.** Auth, Row Level Security, auto-generated API, Storage
 - [ ] **Phase 4: Frontend.** Comic Sans menu, cart, checkout through a transactional RPC
 - [ ] **Phase 5: Advanced.** Triggers, Realtime order tracking, indexes and `EXPLAIN ANALYZE`, Edge Functions
+  - [ ] **Redo auth properly.** Phase 3 uses fake-email test users created in the dashboard. Replace that with real sign-up/sign-in flows, then tinker with external identity providers: OAuth (e.g. GitHub, Google) and SAML SSO
