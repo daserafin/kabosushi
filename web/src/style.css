@@ -23,6 +23,72 @@ body {
   background: var(--paper);
 }
 
+/* --- nav ----------------------------------------------------------------- */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--ink);
+}
+
+.site-nav .brand {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--shibe);
+  text-decoration: none;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav ul a {
+  display: block;
+  padding: 0.2rem 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 999px;
+}
+
+.site-nav ul a:hover,
+.site-nav ul a[aria-current='page'] {
+  color: var(--ink);
+  background: #ffe600;
+  border-color: #fff;
+}
+
+/* --- plain pages (everything but the menu's hero) ------------------------ */
+
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.page > h1 {
+  display: inline-block;
+  margin: 0.5rem 0 1rem;
+  padding: 0.25rem 0.75rem;
+  font-size: clamp(2rem, 6vw, 3rem);
+  background: #ffe600;
+  border: var(--border);
+  box-shadow: var(--shadow);
+  transform: rotate(-1.5deg);
+}
+
 /* --- hero ---------------------------------------------------------------- */
 
 .hero {

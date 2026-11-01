@@ -1,5 +1,6 @@
-import './style.css'
-import { supabase } from './supabase.js'
+import '../style.css'
+import { renderNav } from '../layout.js'
+import { supabase } from '../supabase.js'
 
 const menuEl = document.querySelector('#menu')
 
@@ -103,6 +104,7 @@ function sprinkleDogeWords() {
 
 // --- start ------------------------------------------------------------------
 
+renderNav()
 sprinkleDogeWords()
 
 try {
