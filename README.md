@@ -45,13 +45,12 @@ npm run web                      # dev server at http://localhost:5173
 - [x] **Phase 1: Data model.** Tables, data types, constraints, foreign keys, enums (the menu, so far; orders come later)
 - [x] **Phase 2: Querying.** Seed data, joins, aggregates, views, CTEs, window functions (study notes in `queries/`)
 - [x] **Phase 3: Supabase layer.** Auth, Row Level Security, auto-generated API, Storage (RLS tested by impersonating roles in SQL; real API calls come with the frontend)
-- [ ] **Phase 4: Frontend.** Vite + plain JS, one HTML page per route
+- [x] **Phase 4: Frontend.** Vite + plain JS, one HTML page per route
   - [x] Comic Sans menu, read from `menu_view` through the auto-generated API
   - [x] Opening hours and location (Sakura, Chiba): time zones, the `store_status()` RPC
   - [x] Feedback form: anyone can send, nobody can read back (insert-only RLS). Read it in the dashboard's Table Editor
   - [x] Login for the test accounts, with a "good doggos only" banner. Public sign-up is switched off in the dashboard (Authentication → Sign In / Providers); add users with "Add user"
   - [x] Cart (in the browser) and checkout through a transactional `place_order()` RPC: prices come from the database, never from the browser
-  - [ ] `/author`: a hidden easter-egg page (spinning 3D bun doge, synced to a song). Its own PR, details to come
 - [ ] **Phase 5: Advanced.** Triggers, Realtime order tracking, indexes and `EXPLAIN ANALYZE`, Edge Functions
   - [ ] **Redo auth properly.** Phase 3 uses fake-email test users created in the dashboard. Replace that with real sign-up/sign-in flows, then tinker with external identity providers: OAuth (e.g. GitHub, Google) and SAML SSO
   - [ ] **Explore platform features, including paid (Pro plan) ones.** Starting points (check the current pricing page to see which are paid):
@@ -60,3 +59,4 @@ npm run web                      # dev server at http://localhost:5173
     - Backups and point-in-time recovery
     - Storage image transformations: resize menu photos when requested (e.g. `?width=300` thumbnails), so only full-size originals get uploaded
     - Custom domains, log drains, compute add-ons
+- [ ] **Phase 6: Easter egg (low priority).** `/author`: a hidden page, not in the nav, with a spinning 3D bun doge whose spin speed matches a song's tempo. Details to come
