@@ -50,8 +50,8 @@ npm run web                      # dev server at http://localhost:5173
   - [x] Opening hours and location (Sakura, Chiba): time zones, the `store_status()` RPC
   - [x] Feedback form: anyone can send, nobody can read back (insert-only RLS). Read it in the dashboard's Table Editor
   - [x] Login for the test accounts, with a "good doggos only" banner. Public sign-up is switched off in the dashboard (Authentication → Sign In / Providers); add users with "Add user"
-  - [ ] Cart (in the browser) and checkout through a transactional `place_order()` RPC
-  - [ ] `/author`: a hidden easter-egg page (spinning 3D bun doge, synced to a song). Details to come
+  - [x] Cart (in the browser) and checkout through a transactional `place_order()` RPC: prices come from the database, never from the browser
+  - [ ] `/author`: a hidden easter-egg page (spinning 3D bun doge, synced to a song). Its own PR, details to come
 - [ ] **Phase 5: Advanced.** Triggers, Realtime order tracking, indexes and `EXPLAIN ANALYZE`, Edge Functions
   - [ ] **Redo auth properly.** Phase 3 uses fake-email test users created in the dashboard. Replace that with real sign-up/sign-in flows, then tinker with external identity providers: OAuth (e.g. GitHub, Google) and SAML SSO
   - [ ] **Explore platform features, including paid (Pro plan) ones.** Starting points (check the current pricing page to see which are paid):
