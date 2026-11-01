@@ -418,7 +418,7 @@ body {
   max-width: 1200px;
 }
 
-.kitchen-bar {
+.live-bar {
   margin: 0 0 1rem;
   font-weight: 700;
 }
@@ -531,6 +531,111 @@ body {
 .ticket-actions button:disabled {
   opacity: 0.6;
   cursor: wait;
+}
+
+/* --- order tracker ------------------------------------------------------- */
+
+.order-card {
+  max-width: 640px;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: var(--card);
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.order-card.highlight {
+  outline: 4px dashed var(--pink);
+  outline-offset: 4px;
+}
+
+.order-card.delivered,
+.order-card.cancelled {
+  opacity: 0.75;
+}
+
+.order-card header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.order-card h2 {
+  margin: 0;
+}
+
+.order-meta {
+  font-weight: 700;
+}
+
+.progress {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.progress li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+  color: #9a8f74;
+}
+
+.progress .step-icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.4rem;
+  background: #eee;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  filter: grayscale(1);
+}
+
+.progress li.done,
+.progress li.current {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.progress li.done .step-icon {
+  background: var(--green);
+  border-color: var(--ink);
+  filter: none;
+}
+
+.progress li.current .step-icon {
+  background: #ffe600;
+  border: var(--border);
+  filter: none;
+  animation: wobble 1.5s ease-in-out infinite;
+}
+
+.progress time {
+  min-height: 1.2em;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.cancelled-note {
+  margin: 1rem 0;
+  font-weight: 700;
+  color: var(--pink);
+}
+
+.order-card summary {
+  cursor: pointer;
+  font-weight: 700;
 }
 
 .toast {
