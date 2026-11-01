@@ -48,7 +48,7 @@ npm run web                      # dev server at http://localhost:5173
 - [ ] **Phase 4: Frontend.** Vite + plain JS, one HTML page per route
   - [x] Comic Sans menu, read from `menu_view` through the auto-generated API
   - [x] Opening hours and location (Sakura, Chiba): time zones, the `store_status()` RPC
-  - [ ] Feedback form: anyone can send, nobody can read back (insert-only RLS)
+  - [x] Feedback form: anyone can send, nobody can read back (insert-only RLS). Read it in the dashboard's Table Editor
   - [ ] Login for the test accounts, no sign-up yet, with a "good doggos only" banner
   - [ ] Cart (in the browser) and checkout through a transactional `place_order()` RPC
   - [ ] `/author`: a hidden easter-egg page (spinning 3D bun doge, synced to a song). Details to come
