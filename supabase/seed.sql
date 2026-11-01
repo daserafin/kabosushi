@@ -54,3 +54,19 @@ from (values
 ) as v (category_slug, name, description, price_cents, spice_level, wow_level, is_available)
 join public.categories c on c.slug = v.category_slug
 on conflict (category_id, name) do nothing;
+
+-- The shop: Sakura, Chiba, Kabosu's hometown. The street is made up; the city and time zone are real.
+insert into public.store_info (name, address, timezone, latitude, longitude) values
+  ('kabosushi', '1-1 Much Wow Street, Sakura, Chiba, Japan', 'Asia/Tokyo', 35.723700, 140.223900)
+on conflict (id) do nothing;
+
+-- Opening hours, in shop-local time. 0 = Sunday.
+insert into public.store_hours (day_of_week, opens_at, closes_at, note) values
+  (0, '11:00', '21:00', 'sunday roll day'),
+  (1, null,    null,    'closed: doge nap day'),
+  (2, '11:30', '21:00', null),
+  (3, '11:30', '21:00', null),
+  (4, '11:30', '21:00', null),
+  (5, '11:30', '22:00', 'friday: much late'),
+  (6, '11:00', '22:00', null)
+on conflict (day_of_week) do nothing;
