@@ -70,6 +70,38 @@ body {
   border-color: #fff;
 }
 
+.auth-area {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.auth-area a {
+  padding: 0.2rem 0.7rem;
+  font-weight: 700;
+  color: var(--shibe);
+  text-decoration: none;
+  border: 2px solid var(--shibe);
+  border-radius: 999px;
+}
+
+.auth-area a[aria-current='page'] {
+  color: var(--ink);
+  background: var(--shibe);
+}
+
+.auth-area .logout {
+  padding: 0.2rem 0.6rem;
+  font: inherit;
+  font-size: 0.85rem;
+  color: #fff;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
 /* --- plain pages (everything but the menu's hero) ------------------------ */
 
 .page {
@@ -263,6 +295,42 @@ body {
 
 .form-status.success { color: #138a13; }
 .form-status.error { color: var(--pink); }
+
+/* --- login --------------------------------------------------------------- */
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 560px;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: repeating-linear-gradient(-45deg, #ffe600 0 14px, #fff3a0 14px 28px);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  transform: rotate(0.5deg);
+}
+
+.banner p {
+  margin: 0;
+}
+
+.banner-icon {
+  font-size: 2.5rem;
+  animation: wobble 2s ease-in-out infinite;
+}
+
+.welcome-title {
+  margin: 0;
+}
+
+.doge-form .logout-big {
+  background: var(--ink);
+}
+
+[hidden] {
+  display: none !important;
+}
 
 /* --- hero ---------------------------------------------------------------- */
 

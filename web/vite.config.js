@@ -15,6 +15,7 @@ export default defineConfig({
         menu: page('index.html'),
         info: page('info/index.html'),
         feedback: page('feedback/index.html'),
+        login: page('login/index.html'),
       },
     },
   },

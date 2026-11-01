@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Log in to kabosushi. Good doggos only." />
+    <title>login · kabosushi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="site-nav"></nav>
+
+    <main class="page">
+      <h1>login</h1>
+
+      <aside class="banner" role="note">
+        <span class="banner-icon" aria-hidden="true">🦴</span>
+        <p>
+          <strong>such exclusive. very members.</strong><br />
+          Login is only for good doggos who were invited. New doggo sign-ups are coming soon. Much wait.
+        </p>
+      </aside>
+
+      <!-- Logged out: the login form. Logged in: the welcome panel. login.js shows one of them. -->
+      <form id="login-form" class="doge-form" hidden>
+        <label for="email">email</label>
+        <input id="email" name="email" type="email" autocomplete="username" required />
+
+        <label for="password">password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+
+        <button type="submit">let me in 🐾</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <section id="welcome" class="doge-form" hidden>
+        <h2 class="welcome-title"></h2>
+        <p class="welcome-orders"></p>
+        <button type="button" class="logout-big">log out</button>
+      </section>
+    </main>
+
+    <script type="module" src="/src/pages/login.js"></script>
+  </body>
+</html>
