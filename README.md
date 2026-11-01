@@ -35,3 +35,8 @@ npx supabase db query --linked "select ..."    # run SQL against the cloud DB fr
 - [ ] **Phase 4: Frontend.** Comic Sans menu, cart, checkout through a transactional RPC
 - [ ] **Phase 5: Advanced.** Triggers, Realtime order tracking, indexes and `EXPLAIN ANALYZE`, Edge Functions
   - [ ] **Redo auth properly.** Phase 3 uses fake-email test users created in the dashboard. Replace that with real sign-up/sign-in flows, then tinker with external identity providers: OAuth (e.g. GitHub, Google) and SAML SSO
+  - [ ] **Explore platform features, including paid (Pro plan) ones.** Starting points (check the current pricing page to see which are paid):
+    - Auth hardening: leaked password protection (flagged by `npx supabase db advisors`), MFA, password strength rules
+    - Branching: a preview database for each PR
+    - Backups and point-in-time recovery
+    - Custom domains, log drains, compute add-ons
