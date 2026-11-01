@@ -21,6 +21,7 @@ const CANCELLABLE = ['placed', 'cooking']
 
 let channel = null // the Realtime subscription, while a staff doge is logged in
 let clockTimer = null
+let currentUserId // who the board is currently set up for (undefined = nobody yet)
 const freshIds = new Set() // orders that just arrived, to wobble once
 
 // --- data -------------------------------------------------------------------
@@ -143,8 +144,8 @@ function listen() {
     })
 }
 
-function stopListening() {
-  if (channel) supabase.removeChannel(channel)
+async function stopListening() {
+  if (channel) await supabase.removeChannel(channel)
   channel = null
   clearInterval(clockTimer)
   liveEl.textContent = '⚪ not connected'
@@ -174,7 +175,14 @@ boardEl.addEventListener('click', async (event) => {
 })
 
 onSessionChange(async (session) => {
-  stopListening()
+  // This fires several times: on page load (often twice), on login and logout, and every
+  // time the login token is refreshed. Only start over when the person changes: a channel
+  // can't be subscribed twice, and supabase-js hands refreshed tokens to Realtime itself.
+  const userId = session?.user.id ?? null
+  if (userId === currentUserId) return
+  currentUserId = userId
+
+  await stopListening()
   if (!session) {
     showMessage('🔒 The kitchen is for staff doges only. <a href="/login/">Log in</a>.')
     return
@@ -182,11 +190,13 @@ onSessionChange(async (session) => {
   // Hiding the board is just politeness: without the staff policies, the database
   // would return only this user's own orders anyway.
   const { data: isStaff, error } = await supabase.rpc('is_staff')
+  if (userId !== currentUserId) return // someone else logged in while we were asking
   if (error || !isStaff) {
     showMessage('🚫 much forbidden. this is the kitchen, you are a customer doge. <a href="/">the menu is this way</a>.')
     return
   }
   await refresh()
+  if (userId !== currentUserId) return
   listen()
   clockTimer = setInterval(refreshSoon, 60_000) // keep the "min ago" labels fresh
 })
