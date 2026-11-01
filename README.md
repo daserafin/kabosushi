@@ -22,7 +22,12 @@ npm run db:push                  # applies new migrations to the cloud DB
 npm run db:list                  # local vs remote migration status
 npx supabase db push --linked --include-seed   # also load supabase/seed.sql (safe to re-run)
 npx supabase db query --linked "select ..."    # run SQL against the cloud DB from the terminal
+npx supabase db query --linked -f supabase/seed.sql   # re-apply an edited seed (see below)
 ```
+
+**Seed gotcha:** on a remote database, `--include-seed` runs `seed.sql` only once. After you edit
+the file, a later push just records its new hash ("hash update") and does **not** run it again.
+`seed.sql` is safe to re-run (`on conflict do nothing`), so apply edits with `db query -f`.
 
 Website:
 
@@ -42,7 +47,7 @@ npm run web                      # dev server at http://localhost:5173
 - [x] **Phase 3: Supabase layer.** Auth, Row Level Security, auto-generated API, Storage (RLS tested by impersonating roles in SQL; real API calls come with the frontend)
 - [ ] **Phase 4: Frontend.** Vite + plain JS, one HTML page per route
   - [x] Comic Sans menu, read from `menu_view` through the auto-generated API
-  - [ ] Opening hours and location (Sakura, Chiba): time zones, an `is_open_now`-style RPC
+  - [x] Opening hours and location (Sakura, Chiba): time zones, the `store_status()` RPC
   - [ ] Feedback form: anyone can send, nobody can read back (insert-only RLS)
   - [ ] Login for the test accounts, no sign-up yet, with a "good doggos only" banner
   - [ ] Cart (in the browser) and checkout through a transactional `place_order()` RPC
