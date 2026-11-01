@@ -1,5 +1,6 @@
 import { supabase } from './supabase.js'
 import { displayName, onSessionChange } from './auth.js'
+import { itemCount, onCartChange } from './cart.js'
 import { escapeHtml } from './html.js'
 
 // The nav bar shared by every page. Each page's HTML has an empty <nav class="site-nav">,
@@ -21,6 +22,19 @@ export function renderNav() {
       ${LINKS.map(({ href, label }) => `<li><a href="${href}" ${isCurrent(href)}>${label}</a></li>`).join('')}
     </ul>
     <div class="auth-area"></div>`
+
+  // Cart link with a live item count, after the regular links.
+  nav.querySelector('ul').insertAdjacentHTML(
+    'beforeend',
+    `<li><a href="/cart/" ${isCurrent('/cart/')}>🛒 cart <span class="cart-count"></span></a></li>`,
+  )
+  const cartCount = nav.querySelector('.cart-count')
+  const updateCartCount = () => {
+    const count = itemCount()
+    cartCount.textContent = count ? `(${count})` : ''
+  }
+  updateCartCount()
+  onCartChange(updateCartCount)
 
   const authArea = nav.querySelector('.auth-area')
   onSessionChange(async (session) => {

@@ -498,6 +498,24 @@ body {
   transform: rotate(8deg);
 }
 
+.add-to-cart {
+  align-self: flex-start;
+  margin-top: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  font-weight: 700;
+  background: #ffe600;
+  border: var(--border);
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--ink);
+  cursor: pointer;
+}
+
+.add-to-cart:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
 /* --- sold out ------------------------------------------------------------ */
 
 .sold-out img,

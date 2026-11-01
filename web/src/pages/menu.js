@@ -2,6 +2,7 @@ import '../style.css'
 import { renderNav } from '../layout.js'
 import { supabase } from '../supabase.js'
 import { escapeHtml } from '../html.js'
+import { addToCart } from '../cart.js'
 
 const menuEl = document.querySelector('#menu')
 
@@ -58,6 +59,7 @@ function itemCard(item) {
           <span class="spice" title="spice ${item.spice_level}/5">${'🌶️'.repeat(item.spice_level)}</span>
           <span class="price">${price.format(item.price_cents / 100)}</span>
         </div>
+        ${item.is_available ? `<button type="button" class="add-to-cart" data-id="${item.id}">add to cart 🛒</button>` : ''}
       </div>
       ${item.is_available ? '' : '<span class="sold-out-label">much sad. sold out.</span>'}
     </article>`
@@ -73,6 +75,15 @@ function renderMenu(categories) {
       </section>`,
     )
     .join('')
+
+  // One listener for all buttons ("event delegation") instead of one per card.
+  menuEl.addEventListener('click', (event) => {
+    const button = event.target.closest('.add-to-cart')
+    if (!button) return
+    addToCart(Number(button.dataset.id))
+    button.textContent = 'wow. added! 🐕'
+    setTimeout(() => (button.textContent = 'add to cart 🛒'), 1200)
+  })
 
   // If a photo fails to load, fall back to the bun shipped with the site (web/public).
   for (const img of menuEl.querySelectorAll('.card img')) {
