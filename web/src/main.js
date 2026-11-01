@@ -1,60 +1,113 @@
 import './style.css'
-import heroImg from './assets/hero.png'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import { setupCounter } from './counter.js'
+import { supabase } from './supabase.js'
 
-document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+const menuEl = document.querySelector('#menu')
 
-<div class="ticks"></div>
+const WOW_LABELS = { 'much wow': 'much wow', 'such delish': 'such delish', 'very ok': 'very ok' }
+const price = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+// --- data -------------------------------------------------------------------
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+async function loadMenu() {
+  // supabase-js turns this into an HTTP request to the auto-generated API:
+  //   GET /rest/v1/menu_view?select=*&order=category_sort_order,wow_level.desc,price_cents
+  // It runs as the anon role, so the grants + RLS policies from Phase 3 decide what comes back.
+  const { data, error } = await supabase
+    .from('menu_view')
+    .select('*')
+    .order('category_sort_order')
+    .order('wow_level', { ascending: false }) // enum order: much wow → such delish → very ok
+    .order('price_cents')
 
-setupCounter(document.querySelector('#counter'))
+  if (error) throw error
+  return data
+}
+
+// menu_view returns flat rows; group them into categories, keeping the query's order.
+function groupByCategory(items) {
+  const categories = new Map()
+  for (const item of items) {
+    if (!categories.has(item.category_slug)) {
+      categories.set(item.category_slug, { name: item.category_name, items: [] })
+    }
+    categories.get(item.category_slug).items.push(item)
+  }
+  return [...categories.values()]
+}
+
+// Stored paths become public URLs. The bucket is public, so no login is needed to load them.
+function photoUrl(path) {
+  return supabase.storage.from('menu-photos').getPublicUrl(path).data.publicUrl
+}
+
+// --- rendering --------------------------------------------------------------
+
+// Menu text comes from the database. Escape it before putting it into HTML, so a stray
+// "<" in a description can never turn into markup or a script.
+function escapeHtml(text) {
+  return String(text ?? '').replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`)
+}
+
+function itemCard(item) {
+  const classes = ['card', item.is_available ? '' : 'sold-out'].join(' ')
+  return `
+    <article class="${classes}">
+      ${item.is_top_pick ? '<span class="sticker">top pick!</span>' : ''}
+      <img src="${photoUrl(item.photo_path)}" alt="${escapeHtml(item.name)}" loading="lazy" />
+      <div class="card-body">
+        <h3>${escapeHtml(item.name)}</h3>
+        <p class="description">${escapeHtml(item.description)}</p>
+        <div class="meta">
+          <span class="wow wow-${item.wow_level.split(' ')[0]}">${WOW_LABELS[item.wow_level]}</span>
+          <span class="spice" title="spice ${item.spice_level}/5">${'🌶️'.repeat(item.spice_level)}</span>
+          <span class="price">${price.format(item.price_cents / 100)}</span>
+        </div>
+      </div>
+      ${item.is_available ? '' : '<span class="sold-out-label">much sad. sold out.</span>'}
+    </article>`
+}
+
+function renderMenu(categories) {
+  menuEl.innerHTML = categories
+    .map(
+      (category) => `
+      <section class="category">
+        <h2>${escapeHtml(category.name)}</h2>
+        <div class="grid">${category.items.map(itemCard).join('')}</div>
+      </section>`,
+    )
+    .join('')
+
+  // If a photo fails to load, fall back to the bun shipped with the site (web/public).
+  for (const img of menuEl.querySelectorAll('.card img')) {
+    img.addEventListener('error', () => (img.src = '/doge-bun.png'), { once: true })
+  }
+}
+
+// The classic doge meme: little phrases scattered around in random colours.
+function sprinkleDogeWords() {
+  const words = ['wow', 'such fish', 'very rice', 'much roll', 'so wasabi', 'many nom', 'amaze']
+  const colors = ['#ff2d95', '#00b3ff', '#2fd12f', '#ff8a00', '#a64dff']
+  document.querySelector('.doge-words').innerHTML = words
+    .map((word, i) => {
+      const style = [
+        `left:${5 + ((i * 13) % 85)}%`,
+        `top:${10 + ((i * 37) % 70)}%`,
+        `color:${colors[i % colors.length]}`,
+        `transform:rotate(${(i % 2 ? 1 : -1) * (5 + i * 3)}deg)`,
+      ].join(';')
+      return `<span style="${style}">${word}</span>`
+    })
+    .join('')
+}
+
+// --- start ------------------------------------------------------------------
+
+sprinkleDogeWords()
+
+try {
+  renderMenu(groupByCategory(await loadMenu()))
+} catch (error) {
+  console.error(error)
+  menuEl.innerHTML = `<p class="status error">much error. very sad. (${escapeHtml(error.message)})</p>`
+}
