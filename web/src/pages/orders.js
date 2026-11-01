@@ -61,7 +61,7 @@ function progress(order) {
     </ol>`
 }
 
-function orderCard(order) {
+function orderCard(order, openIds) {
   const lines = order.order_items
     .map((line) => `<li>${line.quantity} × ${escapeHtml(line.menu_items.name)}</li>`)
     .join('')
@@ -73,7 +73,7 @@ function orderCard(order) {
         <span class="order-meta">${clock(order.created_at)} · ${money(order.total_cents)}</span>
       </header>
       ${cancelledAt ? `<p class="cancelled-note">much sad. the kitchen cancelled this at ${clock(cancelledAt)}.</p>` : progress(order)}
-      <details>
+      <details ${openIds.has(`order-${order.id}`) ? 'open' : ''}>
         <summary>what's inside</summary>
         <ul>${lines}</ul>
         <p>📍 ${escapeHtml(order.delivery_address)}</p>
@@ -84,8 +84,11 @@ function orderCard(order) {
 function render(orders) {
   shownStatus.clear()
   for (const order of orders) shownStatus.set(order.id, order.status)
+  // Re-rendering replaces the HTML, which would snap shut any "what's inside" the
+  // customer opened. Remember which ones were open and open them again.
+  const openIds = new Set([...ordersEl.querySelectorAll('details[open]')].map((d) => d.closest('.order-card').id))
   ordersEl.innerHTML = orders.length
-    ? orders.map(orderCard).join('')
+    ? orders.map((order) => orderCard(order, openIds)).join('')
     : '<p class="status">much empty. no orders yet. <a href="/">go find sushi</a> 🍣</p>'
   // Coming from checkout (/orders/#order-7): highlight that order.
   if (location.hash) document.querySelector(location.hash)?.classList.add('highlight')
