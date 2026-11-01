@@ -5,7 +5,8 @@
   "scripts": {
     "db:new": "supabase migration new",
     "db:push": "supabase db push --linked",
-    "db:list": "supabase migration list --linked"
+    "db:list": "supabase migration list --linked",
+    "web": "npm --prefix web run dev"
   },
   "repository": {
     "type": "git",

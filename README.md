@@ -8,7 +8,7 @@ The website is just an excuse. The real goal is to **learn PostgreSQL and Supaba
 ## Stack
 
 - **Database:** Supabase (hosted Postgres), with the schema managed as migration files in `supabase/migrations/`
-- **Frontend:** Vite + React (later, in `web/`)
+- **Frontend:** Vite + plain JavaScript (no framework) and supabase-js, in `web/`
 - **CLI:** Supabase CLI, installed as a dev dependency (run it with `npx supabase …`)
 
 ## Workflow
@@ -22,6 +22,14 @@ npm run db:push                  # applies new migrations to the cloud DB
 npm run db:list                  # local vs remote migration status
 npx supabase db push --linked --include-seed   # also load supabase/seed.sql (safe to re-run)
 npx supabase db query --linked "select ..."    # run SQL against the cloud DB from the terminal
+```
+
+Website:
+
+```bash
+npm --prefix web install         # first time only
+cp web/.env.example web/.env.local   # then fill in the project URL and publishable key
+npm run web                      # dev server at http://localhost:5173
 ```
 
 **Rule of wow:** every schema change goes through a migration file. Use the dashboard SQL editor to explore, not to change the schema.
