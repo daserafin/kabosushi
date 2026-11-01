@@ -14,6 +14,7 @@ export default defineConfig({
       input: {
         menu: page('index.html'),
         info: page('info/index.html'),
+        feedback: page('feedback/index.html'),
       },
     },
   },

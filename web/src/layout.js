@@ -4,6 +4,7 @@
 const LINKS = [
   { href: '/', label: '🍣 menu' },
   { href: '/info/', label: '🕒 hours & map' },
+  { href: '/feedback/', label: '💌 feedback' },
 ]
 
 export function renderNav() {

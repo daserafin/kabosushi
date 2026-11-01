@@ -168,6 +168,102 @@ body {
   box-shadow: var(--shadow);
 }
 
+/* --- forms --------------------------------------------------------------- */
+
+.doge-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 560px;
+  padding: 1.25rem;
+  background: var(--card);
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.doge-form label {
+  font-weight: 700;
+}
+
+.doge-form .hint {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: #6b5e3c;
+}
+
+.doge-form input:not([type='radio']),
+.doge-form textarea {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  border: var(--border);
+  border-radius: 8px;
+}
+
+.doge-form textarea {
+  resize: vertical;
+  margin-bottom: 0;
+}
+
+.doge-form .kind {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px dashed var(--ink);
+  border-radius: 8px;
+}
+
+.doge-form .kind legend {
+  padding: 0 0.25rem;
+  font-weight: 700;
+}
+
+.doge-form .kind label {
+  font-weight: 400;
+}
+
+.counter {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+.doge-form button {
+  align-self: flex-start;
+  padding: 0.5rem 1.25rem;
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: var(--pink);
+  color: #fff;
+  border: var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.doge-form button:hover:not(:disabled) {
+  transform: translate(-1px, -1px) rotate(-1deg);
+}
+
+.doge-form button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.form-status {
+  min-height: 1.5em;
+  margin: 0.5rem 0 0;
+  font-weight: 700;
+}
+
+.form-status.success { color: #138a13; }
+.form-status.error { color: var(--pink); }
+
 /* --- hero ---------------------------------------------------------------- */
 
 .hero {
