@@ -53,7 +53,8 @@ npm run web                      # dev server at http://localhost:5173
   - [x] Cart (in the browser) and checkout through a transactional `place_order()` RPC: prices come from the database, never from the browser
 - [ ] **Phase 5: Advanced.** Triggers, Realtime order tracking, indexes and `EXPLAIN ANALYZE`, Edge Functions
   - [x] Realtime order tracking and triggers: a staff role (`private.staff`, `is_staff()`), a live `/kitchen/` board for staff and a live `/orders/` tracker for customers. Triggers enforce the status flow and write `order_status_history`. To make someone staff, run in the SQL editor: `insert into private.staff (user_id) select id from auth.users where email = '...';`
-  - [ ] **Redo auth properly.** Phase 3 uses fake-email test users created in the dashboard. Replace that with real sign-up/sign-in flows, then tinker with external identity providers: OAuth (e.g. GitHub, Google) and SAML SSO
+  - [x] **Sign-in through an identity provider.** OIDC with a self-hosted Keycloak (`infra/keycloak/`): a "sign in with Keycloak" button on `/login/`, and new profiles named after the provider's claims (`private.display_name_from()`). Kabosushi stays invite-only: Keycloak users are created by hand in its `kabosushi` realm, and there's no public email sign-up. Decided against: email sign-up, GitHub/Google OAuth, and SAML (needs the Pro plan)
+    - [ ] Block email sign-ups. "Allow new users to sign up" has to be on for first-time Keycloak logins, but it also lets anyone call the sign-up API with an email and password. Reject `provider = 'email'` in a Before User Created auth hook
   - [ ] **Explore platform features, including paid (Pro plan) ones.** Starting points (check the current pricing page to see which are paid):
     - Auth hardening: leaked password protection (flagged by `npx supabase db advisors`), MFA, password strength rules
     - Branching: a preview database for each PR
