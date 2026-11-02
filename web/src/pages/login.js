@@ -14,6 +14,19 @@ async function logIn(email, password) {
   if (error) throw error
 }
 
+async function logInWithKeycloak() {
+  // Sends the browser to Supabase Auth, which redirects to Keycloak's login page. After
+  // the login Keycloak redirects back to Supabase's /auth/v1/callback with a code,
+  // Supabase's server swaps it for Keycloak's ID token, finds or creates the auth.users
+  // row, and finally redirects here (redirectTo) with a Supabase session.
+  // 'openid' turns plain OAuth into OIDC: without it Keycloak issues no ID token.
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'keycloak',
+    options: { scopes: 'openid', redirectTo: `${location.origin}/login/` },
+  })
+  if (error) throw error
+}
+
 async function countMyOrders(userId) {
   // Filter by user explicitly: for customers RLS alone would do, but staff policies let
   // staff read every order, and "my orders" should still mean mine.
@@ -62,6 +75,23 @@ form.addEventListener('submit', async (event) => {
     button.disabled = false
   }
 })
+
+form.querySelector('.sso-login').addEventListener('click', () =>
+  logInWithKeycloak().catch((error) => {
+    console.error(error)
+    status.className = 'form-status error'
+    status.textContent = `much error. very sad. (${error.message})`
+  }),
+)
+
+// When an OAuth login fails, Supabase redirects back here with ?error=…&error_description=…
+// instead of a session. Show it, then tidy the URL so a reload doesn't show it again.
+const oauthError = new URLSearchParams(location.search).get('error_description')
+if (oauthError) {
+  status.className = 'form-status error'
+  status.textContent = `much denied. (${oauthError})`
+  history.replaceState(null, '', location.pathname)
+}
 
 welcome.querySelector('.logout-big').addEventListener('click', () => supabase.auth.signOut())
 

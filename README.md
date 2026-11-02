@@ -53,12 +53,14 @@ npm run web                      # dev server at http://localhost:5173
   - [x] Cart (in the browser) and checkout through a transactional `place_order()` RPC: prices come from the database, never from the browser
 - [ ] **Phase 5: Advanced.** Triggers, Realtime order tracking, indexes and `EXPLAIN ANALYZE`, Edge Functions
   - [x] Realtime order tracking and triggers: a staff role (`private.staff`, `is_staff()`), a live `/kitchen/` board for staff and a live `/orders/` tracker for customers. Triggers enforce the status flow and write `order_status_history`. To make someone staff, run in the SQL editor: `insert into private.staff (user_id) select id from auth.users where email = '...';`
-  - [ ] Counter orders for walk-ins: a staff-only page that orders on a customer's behalf. Needs a `customer_name`, delivery vs pickup (with its own status flow), and a `place_order()` that accepts those only from staff
-  - [ ] **Redo auth properly.** Phase 3 uses fake-email test users created in the dashboard. Replace that with real sign-up/sign-in flows, then tinker with external identity providers: OAuth (e.g. GitHub, Google) and SAML SSO
+  - [x] **Sign-in through an identity provider.** OIDC with a self-hosted Keycloak (`infra/keycloak/`): a "sign in with Keycloak" button on `/login/`, and new profiles named after the provider's claims (`private.display_name_from()`). Kabosushi stays invite-only: Keycloak users are created by hand in its `kabosushi` realm, and there's no public email sign-up. Decided against: email sign-up, GitHub/Google OAuth, and SAML (needs the Pro plan)
+    - [x] No open sign-up: "Allow new users to sign up" (Authentication → Sign In / Providers) stays off, because while it's on anyone can call the sign-up API with an email and password. A first-time Keycloak login counts as a sign-up too, so to add someone: create them in Keycloak, switch sign-ups on, let them log in once, switch it off again. (The Before User Created hook that could block only email sign-ups needs the Team plan)
   - [ ] **Explore platform features, including paid (Pro plan) ones.** Starting points (check the current pricing page to see which are paid):
     - Auth hardening: leaked password protection (flagged by `npx supabase db advisors`), MFA, password strength rules
     - Branching: a preview database for each PR
     - Backups and point-in-time recovery
     - Storage image transformations: resize menu photos when requested (e.g. `?width=300` thumbnails), so only full-size originals get uploaded
     - Custom domains, log drains, compute add-ons
-- [ ] **Phase 6: Easter egg (low priority).** `/author`: a hidden page, not in the nav, with a spinning 3D bun doge whose spin speed matches a song's tempo. Details to come
+- [ ] **Phase 6: Later, low priority.**
+  - [ ] `/author`: a hidden easter-egg page, not in the nav, with a spinning 3D bun doge whose spin speed matches a song's tempo. Details to come
+  - [ ] Counter orders for walk-ins: a staff-only page that orders on a customer's behalf. Needs a `customer_name`, delivery vs pickup (with its own status flow), and a `place_order()` that accepts those only from staff
