@@ -287,6 +287,16 @@ body {
   cursor: wait;
 }
 
+.doge-form .or {
+  margin: 0.25rem 0;
+  font-weight: 700;
+}
+
+.doge-form .sso-login {
+  background: #fff;
+  color: inherit;
+}
+
 .form-status {
   min-height: 1.5em;
   margin: 0.5rem 0 0;
