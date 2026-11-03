@@ -37,6 +37,12 @@ cp web/.env.example web/.env.local   # then fill in the project URL and publisha
 npm run web                      # dev server at http://localhost:5173
 ```
 
+**Live at https://kabosushi.daserafin.com.** Every push to `main` builds `web/` and publishes it to
+GitHub Pages (`.github/workflows/deploy.yml`). The build reads `VITE_SUPABASE_URL` and
+`VITE_SUPABASE_PUBLISHABLE_KEY` from the repo's Actions variables. The custom domain lives in
+Settings → Pages, and Supabase's Authentication → URL Configuration must allow
+`https://kabosushi.daserafin.com/**` so logins can redirect back to the site.
+
 **Rule of wow:** every schema change goes through a migration file. Use the dashboard SQL editor to explore, not to change the schema.
 
 ## Learning roadmap
