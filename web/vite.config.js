@@ -19,6 +19,7 @@ export default defineConfig({
         cart: page('cart/index.html'),
         kitchen: page('kitchen/index.html'),
         orders: page('orders/index.html'),
+        notFound: page('404.html'), // GitHub Pages serves it for unknown URLs
       },
     },
   },
