@@ -87,7 +87,7 @@ function renderMenu(categories) {
 
   // If a photo fails to load, fall back to the bun shipped with the site (web/public).
   for (const img of menuEl.querySelectorAll('.card img')) {
-    img.addEventListener('error', () => (img.src = '/doge-bun.png'), { once: true })
+    img.addEventListener('error', () => (img.src = '/doge-bun.webp'), { once: true })
   }
 }
 
